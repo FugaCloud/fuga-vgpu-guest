@@ -1,0 +1,36 @@
+---
+- name: Install build-essential with APT
+  apt:
+    name: "build-essential"
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install build-essential with YUM
+  yum:
+    name: "Development Tools"
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Download Nvidia grid driver
+  get_url:
+    url: "https://core.fuga.cloud:8080/swift/v1/faba49e2b80249c68ebe11119c56b69a/nvidia/NVIDIA-Linux-x86_64-460.73.01-grid.run"
+    dest: /tmp/NVIDIA-Linux-x86_64-460.73.01-grid.run
+    owner: root
+    group: root
+
+- name: Download CUDA driver
+  get_url:
+    url: "https://developer.download.nvidia.com/compute/cuda/11.2.2/local_installers/cuda_11.2.2_460.32.03_linux.run"
+    dest: /tmp/cuda_11.2.2_460.32.03_linux.run
+    owner: root
+    group: root
+
+- name: Install Nvidia grid driver
+  shell:
+          "sh /tmp/NVIDIA-Linux-x86_64-460.73.01-grid.run -s"
+  args:
+          chdir: "/tmp"
+
+- name: Install CUDA toolkit and samples"
+  shell:
+          "sh cuda_11.2.2_460.32.03_linux.run --silent --samples --toolkit"
+  args:
+          chdir: "/tmp"
