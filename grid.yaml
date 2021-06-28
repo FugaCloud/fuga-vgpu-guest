@@ -1,8 +1,0 @@
----
-- name: Installing drivers
-  hosts: localhost
-  become: yes
-  gather_facts: yes
-  connection: local
-  roles:
-    - role: grid
