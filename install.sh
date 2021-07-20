@@ -30,3 +30,11 @@ wget -P ${DL} https://developer.download.nvidia.com/compute/cuda/11.2.2/local_in
 
 sudo bash ${DL}/NVIDIA-Linux-x86_64-460.73.01-grid.run -s
 sudo bash ${DL}/cuda_11.2.2_460.32.03_linux.run --silent --samples --toolkit
+
+sudo tee /etc/nvidia/gridd.conf > /dev/null <<HERE
+ServerAddress=gridlicense1.core.fuga.cloud
+ServerPort=7070
+FeatureType=4
+HERE
+
+sudo systemctl restart nvidia-gridd.service
